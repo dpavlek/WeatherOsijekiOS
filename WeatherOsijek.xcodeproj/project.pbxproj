@@ -1,0 +1,311 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0ECBB4811F1E39C0007A5EEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECBB4801F1E39C0007A5EEC /* AppDelegate.swift */; };
+		0ECBB4831F1E39C0007A5EEC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECBB4821F1E39C0007A5EEC /* ViewController.swift */; };
+		0ECBB4861F1E39C0007A5EEC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0ECBB4841F1E39C0007A5EEC /* Main.storyboard */; };
+		0ECBB4881F1E39C0007A5EEC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0ECBB4871F1E39C0007A5EEC /* Assets.xcassets */; };
+		0ECBB48B1F1E39C0007A5EEC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0ECBB4891F1E39C0007A5EEC /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0ECBB47D1F1E39C0007A5EEC /* WeatherOsijek.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherOsijek.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0ECBB4801F1E39C0007A5EEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		0ECBB4821F1E39C0007A5EEC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		0ECBB4851F1E39C0007A5EEC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		0ECBB4871F1E39C0007A5EEC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0ECBB48A1F1E39C0007A5EEC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		0ECBB48C1F1E39C0007A5EEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0ECBB47A1F1E39C0007A5EEC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0ECBB4741F1E39C0007A5EEC = {
+			isa = PBXGroup;
+			children = (
+				0ECBB47F1F1E39C0007A5EEC /* WeatherOsijek */,
+				0ECBB47E1F1E39C0007A5EEC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0ECBB47E1F1E39C0007A5EEC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0ECBB47D1F1E39C0007A5EEC /* WeatherOsijek.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0ECBB47F1F1E39C0007A5EEC /* WeatherOsijek */ = {
+			isa = PBXGroup;
+			children = (
+				0ECBB4801F1E39C0007A5EEC /* AppDelegate.swift */,
+				0ECBB4821F1E39C0007A5EEC /* ViewController.swift */,
+				0ECBB4841F1E39C0007A5EEC /* Main.storyboard */,
+				0ECBB4871F1E39C0007A5EEC /* Assets.xcassets */,
+				0ECBB4891F1E39C0007A5EEC /* LaunchScreen.storyboard */,
+				0ECBB48C1F1E39C0007A5EEC /* Info.plist */,
+			);
+			path = WeatherOsijek;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0ECBB47C1F1E39C0007A5EEC /* WeatherOsijek */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0ECBB48F1F1E39C0007A5EEC /* Build configuration list for PBXNativeTarget "WeatherOsijek" */;
+			buildPhases = (
+				0ECBB4791F1E39C0007A5EEC /* Sources */,
+				0ECBB47A1F1E39C0007A5EEC /* Frameworks */,
+				0ECBB47B1F1E39C0007A5EEC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WeatherOsijek;
+			productName = WeatherOsijek;
+			productReference = 0ECBB47D1F1E39C0007A5EEC /* WeatherOsijek.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0ECBB4751F1E39C0007A5EEC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "COBE Osijek";
+				TargetAttributes = {
+					0ECBB47C1F1E39C0007A5EEC = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = KZ7LVBES5H;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 0ECBB4781F1E39C0007A5EEC /* Build configuration list for PBXProject "WeatherOsijek" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0ECBB4741F1E39C0007A5EEC;
+			productRefGroup = 0ECBB47E1F1E39C0007A5EEC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0ECBB47C1F1E39C0007A5EEC /* WeatherOsijek */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0ECBB47B1F1E39C0007A5EEC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0ECBB48B1F1E39C0007A5EEC /* LaunchScreen.storyboard in Resources */,
+				0ECBB4881F1E39C0007A5EEC /* Assets.xcassets in Resources */,
+				0ECBB4861F1E39C0007A5EEC /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0ECBB4791F1E39C0007A5EEC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0ECBB4831F1E39C0007A5EEC /* ViewController.swift in Sources */,
+				0ECBB4811F1E39C0007A5EEC /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		0ECBB4841F1E39C0007A5EEC /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0ECBB4851F1E39C0007A5EEC /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		0ECBB4891F1E39C0007A5EEC /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0ECBB48A1F1E39C0007A5EEC /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0ECBB48D1F1E39C0007A5EEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0ECBB48E1F1E39C0007A5EEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		0ECBB4901F1E39C0007A5EEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = KZ7LVBES5H;
+				INFOPLIST_FILE = WeatherOsijek/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = dpavlek.WeatherOsijek;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		0ECBB4911F1E39C0007A5EEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = KZ7LVBES5H;
+				INFOPLIST_FILE = WeatherOsijek/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = dpavlek.WeatherOsijek;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0ECBB4781F1E39C0007A5EEC /* Build configuration list for PBXProject "WeatherOsijek" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0ECBB48D1F1E39C0007A5EEC /* Debug */,
+				0ECBB48E1F1E39C0007A5EEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0ECBB48F1F1E39C0007A5EEC /* Build configuration list for PBXNativeTarget "WeatherOsijek" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0ECBB4901F1E39C0007A5EEC /* Debug */,
+				0ECBB4911F1E39C0007A5EEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0ECBB4751F1E39C0007A5EEC /* Project object */;
+}

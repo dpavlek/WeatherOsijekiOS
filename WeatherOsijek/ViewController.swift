@@ -84,7 +84,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             fatalError("Cell is not DayTableViewCell")
         }
         cell.weatherCellLabel.text = forecastObject.date[indexPath.row]
-        cell.weatherCellTemp.text = String(forecastObject.temp[indexPath.row])
+        cell.weatherCellTemp.text = String(forecastObject.temp[indexPath.row]) + " °C"
         DispatchQueue.global().async {
             if let weatherImage = self.loadImage(identificator: self.forecastObject.icon[indexPath.row]) {
                 DispatchQueue.main.async {

@@ -15,7 +15,9 @@ func getDate(time: Double) -> String {
     if let startIndex = dateDescription.range(of: " "){
         dateDescription.removeSubrange(startIndex.lowerBound..<dateDescription.endIndex)
     }
-    return dateDescription
+    let formatter = DateFormatter()
+    formatter.dateFormat = "EEEE"
+    return formatter.string(from: todayDate as Date).capitalized
 }
 
 struct Weather {
@@ -103,9 +105,6 @@ struct forecast {
                 icon.append(element["icon"].stringValue)
             }
         }
-        print(weather)
-        print(temp)
-        print(date)
     }
     
 }

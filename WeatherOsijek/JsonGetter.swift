@@ -9,6 +9,15 @@
 import Foundation
 import SwiftyJSON
 
+func getDate(time: Double) -> String {
+    let todayDate = NSDate(timeIntervalSince1970: time)
+    var dateDescription = todayDate.description
+    if let startIndex = dateDescription.range(of: " "){
+        dateDescription.removeSubrange(startIndex.lowerBound..<dateDescription.endIndex)
+    }
+    return dateDescription
+}
+
 struct Weather {
     
     var weather: (main: String, description: String, icon: String)
@@ -16,14 +25,14 @@ struct Weather {
     var visibility: Int
     var wind: (speed: Double, deg: Double)
     
-    init(){
+    init() {
         weather = ("Sunny", "Sun is shining", "")
-        main = (0,0,0,0,0)
+        main = (0, 0, 0, 0, 0)
         visibility = 0
-        wind = (0,0)
+        wind = (0, 0)
     }
     
-    mutating func parse(url: String){
+    mutating func parse(url: String) {
         if let url = URL(string: url) {
             if let data = try? Data(contentsOf: url) {
                 let json = JSON(data: data)
@@ -39,7 +48,7 @@ struct Weather {
             let weather_main = result["main"].stringValue
             let weather_desc = result["description"].stringValue
             let weather_icon = result["icon"].stringValue
-            self.weather = (weather_main, weather_desc,weather_icon)
+            weather = (weather_main, weather_desc, weather_icon)
         }
         
         let main_temp = json["main"]["temp"].doubleValue
@@ -47,11 +56,58 @@ struct Weather {
         let main_humidity = json["main"]["humidity"].doubleValue
         let main_temp_min = json["main"]["temp_min"].doubleValue
         let main_temp_max = json["main"]["temp_max"].doubleValue
-        self.main = (main_temp, main_pressure, main_humidity, main_temp_min, main_temp_max)
+        main = (main_temp, main_pressure, main_humidity, main_temp_min, main_temp_max)
         
-        self.visibility = json["visibility"].intValue
-        self.wind = (json["wind"]["speed"].doubleValue, json["wind"]["deg"].doubleValue)
+        visibility = json["visibility"].intValue
+        wind = (json["wind"]["speed"].doubleValue, json["wind"]["deg"].doubleValue)
     }
+}
+
+struct forecast {
+    var temp: [Double]
+    var weather: [String]
+    var date: [String]
+    var icon: [String]
+    
+    init() {
+        temp = []
+        weather = []
+        date = []
+        icon = []
+    }
+    
+    mutating func clear(){
+        temp = []
+        weather = []
+        date = []
+        icon = []
+    }
+    
+    mutating func parse(url: String) {
+        if let url = URL(string: url) {
+            if let data = try? Data(contentsOf: url) {
+                let json = JSON(data: data)
+                if json["cod"].intValue == 200 {
+                    parser(json: json)
+                }
+            }
+        }
+    }
+    
+    private mutating func parser(json: JSON) {
+        for result in json["list"].arrayValue {
+            temp.append(result["temp"]["day"].doubleValue - 273.15)
+            date.append(getDate(time: result["dt"].doubleValue))
+            for element in result["weather"].arrayValue {
+                weather.append(element["main"].stringValue)
+                icon.append(element["icon"].stringValue)
+            }
+        }
+        print(weather)
+        print(temp)
+        print(date)
+    }
+    
 }
 
     /*init?(json: [String: Any]) {

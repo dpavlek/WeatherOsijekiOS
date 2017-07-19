@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0E04B3341F1F4CAC005B2EE2 /* JsonGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E04B3331F1F4CAC005B2EE2 /* JsonGetter.swift */; };
 		0E9167881F1F7A59004A7519 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E9167871F1F7A59004A7519 /* SwiftyJSON.framework */; };
+		0E91678A1F1F92AE004A7519 /* DayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9167891F1F92AE004A7519 /* DayTableViewCell.swift */; };
 		0ECBB4811F1E39C0007A5EEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECBB4801F1E39C0007A5EEC /* AppDelegate.swift */; };
 		0ECBB4831F1E39C0007A5EEC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECBB4821F1E39C0007A5EEC /* ViewController.swift */; };
 		0ECBB4861F1E39C0007A5EEC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0ECBB4841F1E39C0007A5EEC /* Main.storyboard */; };
@@ -20,6 +21,7 @@
 /* Begin PBXFileReference section */
 		0E04B3331F1F4CAC005B2EE2 /* JsonGetter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonGetter.swift; sourceTree = "<group>"; };
 		0E9167871F1F7A59004A7519 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../Library/Developer/Xcode/DerivedData/WeatherOsijek-egjxvpwrxsxuedabxyqaudlgnbkf/Build/Products/Debug-iphonesimulator/SwiftyJSON/SwiftyJSON.framework"; sourceTree = "<group>"; };
+		0E9167891F1F92AE004A7519 /* DayTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayTableViewCell.swift; sourceTree = "<group>"; };
 		0ECBB47D1F1E39C0007A5EEC /* WeatherOsijek.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherOsijek.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ECBB4801F1E39C0007A5EEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ECBB4821F1E39C0007A5EEC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 				0ECBB4821F1E39C0007A5EEC /* ViewController.swift */,
 				0E04B3331F1F4CAC005B2EE2 /* JsonGetter.swift */,
 				0ECBB4841F1E39C0007A5EEC /* Main.storyboard */,
+				0E9167891F1F92AE004A7519 /* DayTableViewCell.swift */,
 				0ECBB4871F1E39C0007A5EEC /* Assets.xcassets */,
 				0ECBB4891F1E39C0007A5EEC /* LaunchScreen.storyboard */,
 				0ECBB48C1F1E39C0007A5EEC /* Info.plist */,
@@ -221,6 +224,7 @@
 			files = (
 				0ECBB4831F1E39C0007A5EEC /* ViewController.swift in Sources */,
 				0ECBB4811F1E39C0007A5EEC /* AppDelegate.swift in Sources */,
+				0E91678A1F1F92AE004A7519 /* DayTableViewCell.swift in Sources */,
 				0E04B3341F1F4CAC005B2EE2 /* JsonGetter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

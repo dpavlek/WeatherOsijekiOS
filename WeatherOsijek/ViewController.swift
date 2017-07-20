@@ -16,7 +16,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var weatherWind: UILabel!
     @IBOutlet weak var forecastTable: UITableView!
     
-    var forecastObject = forecast()
+    var forecastObject = [Forecast]()
     var weatherObject = Weather()
     
     override func viewDidLoad() {
@@ -30,10 +30,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func refreshData() {
         
-        forecastObject.clear()
         // Do any additional setup after loading the view, typically from a nib.
         let parsingURL = "http://api.openweathermap.org/data/2.5/weather?q=Osijek,hr&units=metric&appid=913cd011c39c592225373dd9d19f62b3"
-        weatherObject.parse(url: parsingURL)
+        let fetcher = Fetcher(fromUrl: URL(parsingURL)!) { (_: [String : Any]) in
+            <#code#>
+        }
         
         weatherDesc.text = weatherObject.weather.description.capitalized
         weatherTemp.text = "Temperature: \(weatherObject.main.temp) °C"

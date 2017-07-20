@@ -10,13 +10,12 @@ import Foundation
 import SwiftyJSON
 
 func getDate(time: Double) -> String {
+    
     let todayDate = NSDate(timeIntervalSince1970: time)
-    var dateDescription = todayDate.description
-    if let startIndex = dateDescription.range(of: " "){
-        dateDescription.removeSubrange(startIndex.lowerBound..<dateDescription.endIndex)
-    }
+    
     let formatter = DateFormatter()
     formatter.dateFormat = "EEEE"
+    
     return formatter.string(from: todayDate as Date).capitalized
 }
 
@@ -28,7 +27,7 @@ struct Weather {
     var wind: (speed: Double, deg: Double)
     
     init() {
-        weather = ("Sunny", "Sun is shining", "")
+        weather = ("null", "null", "")
         main = (0, 0, 0, 0, 0)
         visibility = 0
         wind = (0, 0)
@@ -66,6 +65,7 @@ struct Weather {
 }
 
 struct forecast {
+    
     var temp: [Double]
     var weather: [String]
     var date: [String]
@@ -78,7 +78,7 @@ struct forecast {
         icon = []
     }
     
-    mutating func clear(){
+    mutating func clear() {
         temp = []
         weather = []
         date = []
@@ -106,10 +106,11 @@ struct forecast {
             }
         }
     }
-    
 }
 
-    /*init?(json: [String: Any]) {
+    /*Pokušaj native parsiranja
+ 
+init?(json: [String: Any]) {
         guard let main = json["main"] as? [String: Double],
             let temp = main["temp"],
             let pressure = main["pressure"],

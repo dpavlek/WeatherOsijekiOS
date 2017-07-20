@@ -50,8 +50,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let forecastURL = "http://api.openweathermap.org/data/2.5/forecast/daily?id=3193935&cnt=7&appid=913cd011c39c592225373dd9d19f62b3"
         forecastObject.parse(url: forecastURL)
         
-        print(forecastObject.date[0])
-        
         forecastTable.reloadData()
         
     }
@@ -80,11 +78,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "dayCell", for: indexPath) as? DayTableViewCell else {
             fatalError("Cell is not DayTableViewCell")
         }
+        
         cell.weatherCellLabel.text = forecastObject.date[indexPath.row]
         cell.weatherCellTemp.text = String(forecastObject.temp[indexPath.row]) + " °C"
+        
         DispatchQueue.global().async {
             if let weatherImage = self.loadImage(identificator: self.forecastObject.icon[indexPath.row]) {
                 DispatchQueue.main.async {
@@ -92,7 +93,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             }
         }
-        // cell.planetImage?.image = UIImage(data: planets[indexPath.row].image!)
+        
         return cell
         
     }

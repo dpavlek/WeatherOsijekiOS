@@ -13,7 +13,7 @@ class DayTableViewCell: UITableViewCell {
     @IBOutlet weak var weatherCellImage: UIImageView!
     @IBOutlet weak var weatherCellLabel: UILabel!
     @IBOutlet weak var weatherCellTemp: UILabel!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

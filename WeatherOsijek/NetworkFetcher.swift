@@ -9,16 +9,18 @@
 import Foundation
 
 class Fetcher {
-    
+
     let session = URLSession.shared
-    
-    init(fromUrl url: URL, completion: @escaping (([String:Any])->Void)){
-        session.dataTask(with: url){data,_,error in
-            guard error == nil, let data=data else{
+
+    init(fromUrl url: URL, completion: @escaping (([String: Any]) -> Void)){
+       
+        let task = session.dataTask(with: url) { data, _, error in
+            guard error == nil, let data = data else {
                 return
             }
-            let parsedData = try? JSONSerialization.jsonObject(with: data, options: []) as! [String:Any]
-            completion(parsedData! as [String:Any])
+            let parsedData = try? JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+            completion(parsedData!)
         }
+        task.resume()
     }
 }

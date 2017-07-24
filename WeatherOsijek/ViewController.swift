@@ -16,8 +16,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var weatherWind: UILabel!
     @IBOutlet weak var forecastTable: UITableView!
     
-    var forecastObject = [Forecast]()
-    var weatherObject = Weather()
+    var forecastObject: Forecasts?
+    var weatherObject: Weather?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,57 +25,38 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         forecastTable.delegate = self
         forecastTable.dataSource = self
         
-        refreshData()
-    }
-    
-    func refreshData() {
+        let weatherURLString = "http://api.openweathermap.org/data/2.5/weather?q=Osijek,hr&units=metric&appid=913cd011c39c592225373dd9d19f62b3"
+        let forecastURLString = "http://api.openweathermap.org/data/2.5/forecast/daily?id=3193935&units=metric&cnt=7&appid=913cd011c39c592225373dd9d19f62b3"
         
-        // Do any additional setup after loading the view, typically from a nib.
-        let parsingURL = "http://api.openweathermap.org/data/2.5/weather?q=Osijek,hr&units=metric&appid=913cd011c39c592225373dd9d19f62b3"
-        let fetcher = Fetcher(fromUrl: URL(parsingURL)!) { (_: [String : Any]) in
-            <#code#>
+        let weatherURL = URL(string: weatherURLString)!
+        let forecastURL = URL(string: forecastURLString)!
+        
+        var jsonDataWeather = [String: Any]()
+        var jsonDataForecast = [String: Any]()
+        
+        Fetcher(fromUrl: forecastURL) { json in
+            jsonDataForecast = json
         }
         
-        weatherDesc.text = weatherObject.weather.description.capitalized
-        weatherTemp.text = "Temperature: \(weatherObject.main.temp) °C"
-        weatherWind.text = "Wind speed: \(weatherObject.wind.speed) km/h"
+        var forecastObject = Forecasts(json: jsonDataWeather, urlString: forecastURLString)
         
-        DispatchQueue.global().async {
-            if let weatherImage = self.loadImage(identificator: self.weatherObject.weather.icon) {
-                DispatchQueue.main.async {
-                    self.weatherImage.image = weatherImage
-                }
-            }
+        Fetcher(fromUrl: weatherURL) { json in
+            jsonDataWeather = json
         }
+        var weatherObject = Weather(json: jsonDataWeather, urlString: weatherURLString)
         
-        let forecastURL = "http://api.openweathermap.org/data/2.5/forecast/daily?id=3193935&cnt=7&appid=913cd011c39c592225373dd9d19f62b3"
-        forecastObject.parse(url: forecastURL)
-        
-        forecastTable.reloadData()
-        
+        weatherDesc.text = weatherObject?.weatherDesc?.shortDesc
+        weatherTemp.text = "Temperature: \(String(describing: weatherObject?.currentTemp)) °C"
+        weatherWind.text = "Wind speed: \(String(describing: weatherObject?.windSpeed)) km/h"
+        weatherImage.image = weatherObject?.weatherDesc?.weatherIcon
     }
     
     @IBAction func reloadWeather(_ sender: UIBarButtonItem) {
-        refreshData()
-    }
-    
-    func loadImage(identificator: String) -> UIImage? {
-        let imageURLString = "http://openweathermap.org/img/w/" + identificator + ".png"
-        if let imageURL = URL(string: imageURLString) {
-            if let imageData = try? Data(contentsOf: imageURL) {
-                return UIImage(data: imageData)
-            }
-        }
-        return nil
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        forecastObject = forecastObject?.RefreshData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return forecastObject.date.count
+        return forecastObject?.GetForecastCount() ?? 7
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -84,19 +65,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             fatalError("Cell is not DayTableViewCell")
         }
         
-        cell.weatherCellLabel.text = forecastObject.date[indexPath.row]
-        cell.weatherCellTemp.text = String(forecastObject.temp[indexPath.row]) + " °C"
-        
-        DispatchQueue.global().async {
-            if let weatherImage = self.loadImage(identificator: self.forecastObject.icon[indexPath.row]) {
-                DispatchQueue.main.async {
-                    cell.weatherCellImage.image = weatherImage
-                }
-            }
-        }
+        cell.weatherCellLabel.text = forecastObject?.forecasts[indexPath.row].weatherDescription
+        cell.weatherCellTemp.text = String(describing: forecastObject?.forecasts[indexPath.row].temp) + " °C"
+        cell.weatherCellImage.image = forecastObject?.forecasts[indexPath.row].icon
         
         return cell
-        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

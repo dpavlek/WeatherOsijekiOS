@@ -39,7 +39,7 @@ extension WeatherDetail {
 
 struct Weather {
     
-    let urlString = "http://api.openweathermap.org/data/2.5/weather?q=Osijek,hr&units=metric&appid=913cd011c39c592225373dd9d19f62b3"
+    var urlString = ""
     let parsingURL: URL
     var weatherDesc: WeatherDetail?
     let currentTemp: Double
@@ -53,24 +53,39 @@ struct Weather {
     
     init?(json: [String: Any], urlString: String) {
         
-        guard let weathersArray = json["weather"] as? [Any],
-            let weathers = weathersArray[0] as? [String: String],
-            let shortDesc = weathers["main"],
-            let longDesc = weathers["description"],
-            let weatherIcon = weathers["icon"],
-            let weatherID = weathers["id"],
-            let conditions = json["main"] as? [String: Double],
-            let temp = conditions["temp"],
-            let pressure = conditions["pressure"],
-            let humidity = conditions["humidity"],
-            let tempMin = conditions["temp_min"],
-            let tempMax = conditions["temp_max"],
-            let visibility = json["visibility"] as? Int,
-            let windSpecs = json["wind"] as? [String: Double],
-            let windSpeed = windSpecs["speed"],
-            let windDegree = windSpecs["deg"]
-        else {
-            return nil
+        let json = JSON(json)
+        
+//        guard let weathersArray = json["weather"] as? [Any],
+//            let weathers = weathersArray[0] as? [String: String],
+//            let shortDesc = weathers["main"],
+//            let longDesc = weathers["description"],
+//            let weatherIcon = weathers["icon"],
+//            let weatherID = weathers["id"],
+//            let conditions = json["main"] as? [String: Double],
+//            let temp = conditions["temp"],
+//            let pressure = conditions["pressure"],
+//            let humidity = conditions["humidity"],
+//            let tempMin = conditions["temp_min"],
+//            let tempMax = conditions["temp_max"],
+//            let visibility = json["visibility"] as? Int,
+//            let windSpecs = json["wind"] as? [String: Double],
+//            let windSpeed = windSpecs["speed"],
+//            let windDegree = windSpecs["deg"]
+        
+        guard let shortDesc = json["weather"][0]["main"].string,
+            let longDesc = json["weather"][0]["description"].string,
+            let weatherIcon = json["weather"][0]["icon"].string,
+            let weatherID = json["weather"][0]["id"].string,
+            let temp = json["main"]["temp"].double,
+            let pressure = json["main"]["pressure"].double,
+            let humidity = json["main"]["humidity"].double,
+            let tempMin = json["main"]["temp_min"].double,
+            let tempMax = json["main"]["temp_max"].double,
+            let visibility = json["visibility"].int,
+            let windSpeed = json["wind"]["speed"].double,
+            let windDegree = json["wind"]["degree"].double
+            else {
+                return nil
         }
         
         self.currentTemp = temp
@@ -81,6 +96,8 @@ struct Weather {
         self.visibility = visibility
         self.windSpeed = windSpeed
         self.windDegree = windDegree
+        
+        self.urlString = urlString
         self.parsingURL = URL(string: urlString)!
 
         
@@ -89,19 +106,16 @@ struct Weather {
         }
     }
     
-    func RefreshData() -> Weather?{
-        
-        var jsonDataWeather = [String:Any]()
-        Fetcher(fromUrl: parsingURL){json in
-            jsonDataWeather = json
+    func RefreshData(onCompletion: @escaping (Weather?) -> Void){
+        Fetcher(fromUrl: parsingURL){jsonDataWeather in
+            onCompletion(Weather(json: jsonDataWeather, urlString: self.urlString))
         }
-        return Weather(json: jsonDataWeather, urlString: self.urlString)
     }
 }
 
 struct Forecast {
     
-    var temp: Double?
+    var temp: String
     var weatherDescription: String
     var date: String
     var icon: UIImage?
@@ -110,12 +124,14 @@ struct Forecast {
 
 struct Forecasts {
     
-    let urlString = "http://api.openweathermap.org/data/2.5/forecast/daily?id=3193935&units=metric&cnt=7&appid=913cd011c39c592225373dd9d19f62b3"
+    var urlString = ""
     let parsingURL: URL
     var forecasts = [Forecast]()
     
     init?(json: [String: Any], urlString: String) {
         
+        
+        self.urlString = urlString
         self.parsingURL = URL(string: urlString)!
         
         guard let forecastsArray = json["list"] as? [[String: Any]]
@@ -127,11 +143,11 @@ struct Forecasts {
             
             let day = JSON(day)
             
-            let temp = day["temp"]["day"].doubleValue
+            let temp = day["temp"]["day"].stringValue
             let weatherDescription = day["weather"][0]["main"].string ?? "No Description"
             let date = Date().DayOfWeek(time: day["dt"].doubleValue)
             //TO-DO Deal with optional icon
-            let iconID = day["weather"][0]["icon"].string!
+            let iconID = day["weather"][0]["icon"].stringValue
             LoadImage(identificator: iconID) { image in
                 self.forecasts.append(Forecast(temp: temp, weatherDescription: weatherDescription, date: date, icon: image))
             }
@@ -142,14 +158,14 @@ struct Forecasts {
         return forecasts.count
     }
     
-    func RefreshData() -> Forecasts?{
+    func RefreshData(onCompletion: @escaping ((Forecasts?) -> Void)){
         
         var jsonDataForecast = [String:Any]()
         let forecastURL = URL(string: urlString)!
         Fetcher(fromUrl: forecastURL){json in
             jsonDataForecast = json
+            onCompletion(Forecasts(json: jsonDataForecast, urlString: self.urlString))
         }
-        return Forecasts(json: jsonDataForecast, urlString: self.urlString)
     }
 
 }

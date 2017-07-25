@@ -31,28 +31,35 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let weatherURL = URL(string: weatherURLString)!
         let forecastURL = URL(string: forecastURLString)!
         
-        var jsonDataWeather = [String: Any]()
-        var jsonDataForecast = [String: Any]()
-        
-        Fetcher(fromUrl: forecastURL) { json in
-            jsonDataForecast = json
+        Fetcher(fromUrl: weatherURL) { jsonDataWeather in
+            self.weatherObject = Weather(json: jsonDataWeather, urlString: weatherURLString)
+            self.ShowWeatherData()
         }
         
-        var forecastObject = Forecasts(json: jsonDataWeather, urlString: forecastURLString)
-        
-        Fetcher(fromUrl: weatherURL) { json in
-            jsonDataWeather = json
+        Fetcher(fromUrl: forecastURL) { jsonDataForecast in
+            self.forecastObject = Forecasts(json: jsonDataForecast, urlString: forecastURLString)
+            self.forecastTable.reloadData()
         }
-        var weatherObject = Weather(json: jsonDataWeather, urlString: weatherURLString)
         
-        weatherDesc.text = weatherObject?.weatherDesc?.shortDesc
-        weatherTemp.text = "Temperature: \(String(describing: weatherObject?.currentTemp)) °C"
-        weatherWind.text = "Wind speed: \(String(describing: weatherObject?.windSpeed)) km/h"
-        weatherImage.image = weatherObject?.weatherDesc?.weatherIcon
+}
+    
+    private func ShowWeatherData(){
+        self.weatherDesc.text = self.weatherObject?.weatherDesc?.shortDesc
+        self.weatherTemp.text = "Temperature: \(String(describing: self.weatherObject?.currentTemp)) °C"
+        self.weatherWind.text = "Wind speed: \(String(describing: self.weatherObject?.windSpeed)) km/h"
+        self.weatherImage.image = self.weatherObject?.weatherDesc?.weatherIcon
     }
     
     @IBAction func reloadWeather(_ sender: UIBarButtonItem) {
-        forecastObject = forecastObject?.RefreshData()
+        forecastObject?.RefreshData{ forecast in
+            self.forecastObject = forecast
+            self.forecastTable.reloadData()
+        }
+        weatherObject?.RefreshData{ weather in
+            self.weatherObject = weather
+            self.ShowWeatherData()
+        }
+        forecastTable.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -65,8 +72,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             fatalError("Cell is not DayTableViewCell")
         }
         
-        cell.weatherCellLabel.text = forecastObject?.forecasts[indexPath.row].weatherDescription
-        cell.weatherCellTemp.text = String(describing: forecastObject?.forecasts[indexPath.row].temp) + " °C"
+        cell.weatherCellLabel.text = forecastObject?.forecasts[indexPath.row].date
+        //TO-DO Temperature. Why optional?
+        cell.weatherCellTemp.text = (forecastObject?.forecasts[indexPath.row].temp ?? "nil") + " °C"
         cell.weatherCellImage.image = forecastObject?.forecasts[indexPath.row].icon
         
         return cell

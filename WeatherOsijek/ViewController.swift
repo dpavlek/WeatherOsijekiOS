@@ -35,37 +35,29 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         fetcher.fetch(fromUrl: weatherURL) { [weak self] json in
             self?.weatherObject = Weather(json: json, urlString: weatherURLString)
             self?.showWeatherData()
-          
+            
         }
-   
         
-        //
-        //        Fetcher(fromUrl: weatherURL) { jsonDataWeather in
-        //            self.weatherObject = Weather(json: jsonDataWeather, urlString: weatherURLString)
-        //            self.ShowWeatherData()
-        //        }
-        //
-        //        Fetcher(fromUrl: forecastURL) { jsonDataForecast in
-        //            self.forecastObject = Forecasts(json: jsonDataForecast, urlString: forecastURLString)
-        //            self.forecastTable.reloadData()
-        //        }
-        
+        fetcher.fetch(fromUrl: forecastURL) { [weak self] json in
+            self?.forecastObject = Forecasts(json: json, urlString: forecastURLString)
+            self?.forecastTable.reloadData()
+        }
     }
     
     private func showWeatherData() {
         weatherDesc.text = weatherObject?.weatherDesc?.shortDesc
-        weatherTemp.text = "Temperature: \(String(describing: weatherObject?.currentTemp)) °C"
-        weatherWind.text = "Wind speed: \(String(describing: weatherObject?.windSpeed)) km/h"
+        weatherTemp.text = "Temperature: \(String(weatherObject?.currentTemp ?? -273.15)) °C"
+        weatherWind.text = "Wind: \(String(weatherObject?.windSpeed ?? -273.15)) km/h"
         weatherImage.image = weatherObject?.weatherDesc?.weatherIcon
         
     }
     
     @IBAction func reloadWeather(_ sender: UIBarButtonItem) {
-        forecastObject?.RefreshData { forecast in
+        forecastObject?.refreshData { forecast in
             self.forecastObject = forecast
             self.forecastTable.reloadData()
         }
-        weatherObject?.RefreshData { weather in
+        weatherObject?.refreshData { weather in
             self.weatherObject = weather
             self.showWeatherData()
         }
@@ -73,7 +65,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return forecastObject?.GetForecastCount() ?? 7
+        return forecastObject?.getForecastCount() ?? 7
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -11,8 +11,8 @@ import Foundation
 class Fetcher {
     
     var currentTask: URLSessionTask?
-
-    func fetch(fromUrl url: URL, completion: @escaping (([String: Any]) -> Void)){
+    
+    func fetch(fromUrl url: URL, completion: @escaping (([String: Any]) -> Void)) {
         let session = URLSession.shared
         currentTask = session.dataTask(with: url) { data, _, error in
             DispatchQueue.main.async {
@@ -29,6 +29,5 @@ class Fetcher {
     deinit {
         currentTask?.cancel()
     }
-    
     
 }

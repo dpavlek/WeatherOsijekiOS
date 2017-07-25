@@ -18,6 +18,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var forecastObject: Forecasts?
     var weatherObject: Weather?
+    var fetcher = Fetcher()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,33 +32,42 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let weatherURL = URL(string: weatherURLString)!
         let forecastURL = URL(string: forecastURLString)!
         
-        Fetcher(fromUrl: weatherURL) { jsonDataWeather in
-            self.weatherObject = Weather(json: jsonDataWeather, urlString: weatherURLString)
-            self.ShowWeatherData()
+        fetcher.fetch(fromUrl: weatherURL) { [weak self] json in
+            self?.weatherObject = Weather(json: json, urlString: weatherURLString)
+            self?.showWeatherData()
+          
         }
+   
         
-        Fetcher(fromUrl: forecastURL) { jsonDataForecast in
-            self.forecastObject = Forecasts(json: jsonDataForecast, urlString: forecastURLString)
-            self.forecastTable.reloadData()
-        }
+        //
+        //        Fetcher(fromUrl: weatherURL) { jsonDataWeather in
+        //            self.weatherObject = Weather(json: jsonDataWeather, urlString: weatherURLString)
+        //            self.ShowWeatherData()
+        //        }
+        //
+        //        Fetcher(fromUrl: forecastURL) { jsonDataForecast in
+        //            self.forecastObject = Forecasts(json: jsonDataForecast, urlString: forecastURLString)
+        //            self.forecastTable.reloadData()
+        //        }
         
-}
+    }
     
-    private func ShowWeatherData(){
-        self.weatherDesc.text = self.weatherObject?.weatherDesc?.shortDesc
-        self.weatherTemp.text = "Temperature: \(String(describing: self.weatherObject?.currentTemp)) °C"
-        self.weatherWind.text = "Wind speed: \(String(describing: self.weatherObject?.windSpeed)) km/h"
-        self.weatherImage.image = self.weatherObject?.weatherDesc?.weatherIcon
+    private func showWeatherData() {
+        weatherDesc.text = weatherObject?.weatherDesc?.shortDesc
+        weatherTemp.text = "Temperature: \(String(describing: weatherObject?.currentTemp)) °C"
+        weatherWind.text = "Wind speed: \(String(describing: weatherObject?.windSpeed)) km/h"
+        weatherImage.image = weatherObject?.weatherDesc?.weatherIcon
+        
     }
     
     @IBAction func reloadWeather(_ sender: UIBarButtonItem) {
-        forecastObject?.RefreshData{ forecast in
+        forecastObject?.RefreshData { forecast in
             self.forecastObject = forecast
             self.forecastTable.reloadData()
         }
-        weatherObject?.RefreshData{ weather in
+        weatherObject?.RefreshData { weather in
             self.weatherObject = weather
-            self.ShowWeatherData()
+            self.showWeatherData()
         }
         forecastTable.reloadData()
     }
@@ -73,7 +83,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         cell.weatherCellLabel.text = forecastObject?.forecasts[indexPath.row].date
-        //TO-DO Temperature. Why optional?
+        // TO-DO Temperature. Why optional?
         cell.weatherCellTemp.text = (forecastObject?.forecasts[indexPath.row].temp ?? "nil") + " °C"
         cell.weatherCellImage.image = forecastObject?.forecasts[indexPath.row].icon
         

@@ -25,14 +25,14 @@ struct WeatherDetail {
     let shortDesc: String
     let longDesc: String
     let weatherIcon: UIImage?
-    let weatherID: String
+    //let weatherID: String
 }
 
 extension WeatherDetail {
     init() {
         shortDesc = ""
         longDesc = ""
-        weatherID = ""
+        //weatherID = ""
         weatherIcon = nil
     }
 }
@@ -43,10 +43,10 @@ struct Weather {
     let parsingURL: URL
     var weatherDesc: WeatherDetail?
     let currentTemp: Double
-    let pressure: Double
-    let humidity: Double
-    let tempMin: Double
-    let tempMax: Double
+    let pressure: Int
+    let humidity: Int
+    let tempMin: Int
+    let tempMax: Int
     let visibility: Int
     let windSpeed: Double
     let windDegree: Double
@@ -75,15 +75,15 @@ struct Weather {
         guard let shortDesc = json["weather"][0]["main"].string,
             let longDesc = json["weather"][0]["description"].string,
             let weatherIcon = json["weather"][0]["icon"].string,
-            let weatherID = json["weather"][0]["id"].string,
+            let weatherID = json["weather"][0]["id"].int,
             let temp = json["main"]["temp"].double,
-            let pressure = json["main"]["pressure"].double,
-            let humidity = json["main"]["humidity"].double,
-            let tempMin = json["main"]["temp_min"].double,
-            let tempMax = json["main"]["temp_max"].double,
+            let pressure = json["main"]["pressure"].int,
+            let humidity = json["main"]["humidity"].int,
+            let tempMin = json["main"]["temp_min"].int,
+            let tempMax = json["main"]["temp_max"].int,
             let visibility = json["visibility"].int,
             let windSpeed = json["wind"]["speed"].double,
-            let windDegree = json["wind"]["degree"].double
+            let windDegree = json["wind"]["deg"].double
             else {
                 return nil
         }
@@ -102,14 +102,16 @@ struct Weather {
 
         
         LoadImage(identificator: weatherIcon) { image in
-            self.weatherDesc = WeatherDetail(shortDesc: shortDesc, longDesc: longDesc, weatherIcon: image, weatherID: weatherID)
+            self.weatherDesc = WeatherDetail(shortDesc: shortDesc, longDesc: longDesc, weatherIcon: image)
         }
     }
     
+    
+    
     func RefreshData(onCompletion: @escaping (Weather?) -> Void){
-        Fetcher(fromUrl: parsingURL){jsonDataWeather in
-            onCompletion(Weather(json: jsonDataWeather, urlString: self.urlString))
-        }
+//        Fetcher(fromUrl: parsingURL){jsonDataWeather in
+//            onCompletion(Weather(json: jsonDataWeather, urlString: self.urlString))
+//        }
     }
 }
 
@@ -162,10 +164,10 @@ struct Forecasts {
         
         var jsonDataForecast = [String:Any]()
         let forecastURL = URL(string: urlString)!
-        Fetcher(fromUrl: forecastURL){json in
-            jsonDataForecast = json
-            onCompletion(Forecasts(json: jsonDataForecast, urlString: self.urlString))
-        }
+//        Fetcher(fromUrl: forecastURL){json in
+//            jsonDataForecast = json
+//            onCompletion(Forecasts(json: jsonDataForecast, urlString: self.urlString))
+//        }
     }
 
 }

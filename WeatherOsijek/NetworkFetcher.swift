@@ -9,18 +9,26 @@
 import Foundation
 
 class Fetcher {
+    
+    var currentTask: URLSessionTask?
 
-    let session = URLSession.shared
-
-    init(fromUrl url: URL, completion: @escaping (([String: Any]) -> Void)){
-       
-        let task = session.dataTask(with: url) { data, _, error in
-            guard error == nil, let data = data else {
-                return
+    func fetch(fromUrl url: URL, completion: @escaping (([String: Any]) -> Void)){
+        let session = URLSession.shared
+        currentTask = session.dataTask(with: url) { data, _, error in
+            DispatchQueue.main.async {
+                guard error == nil, let data = data else {
+                    return
+                }
+                let parsedData = try? JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+                completion(parsedData!)
             }
-            let parsedData = try? JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-            completion(parsedData!)
         }
-        task.resume()
+        currentTask?.resume()
     }
+    
+    deinit {
+        currentTask?.cancel()
+    }
+    
+    
 }

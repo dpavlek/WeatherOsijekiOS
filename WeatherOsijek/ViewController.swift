@@ -16,9 +16,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var weatherWind: UILabel!
     @IBOutlet weak var forecastTable: UITableView!
     
-    var forecastObject: Forecasts?
-    var weatherObject: Weather?
-    var fetcher = Fetcher()
+    private var forecastObject: Forecasts?
+    private var weatherObject: Weather?
+    private var fetcher = Fetcher()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,15 +53,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @IBAction func reloadWeather(_ sender: UIBarButtonItem) {
+        
         forecastObject?.refreshData { forecast in
             self.forecastObject = forecast
             self.forecastTable.reloadData()
         }
+        
         weatherObject?.refreshData { weather in
             self.weatherObject = weather
             self.showWeatherData()
         }
-        forecastTable.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

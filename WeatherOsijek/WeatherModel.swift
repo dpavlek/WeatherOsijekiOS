@@ -145,7 +145,6 @@ struct Forecasts {
             let temp = day["temp"]["day"].stringValue
             let weatherDescription = day["weather"][0]["main"].string ?? "No Description"
             let date = Date().dayOfWeek(time: day["dt"].doubleValue)
-            // TO-DO Deal with optional icon
             let iconID = day["weather"][0]["icon"].stringValue
             loadImage(identificator: iconID) { image in
                 self.forecasts.append(Forecast(temp: temp, weatherDescription: weatherDescription, date: date, icon: image))

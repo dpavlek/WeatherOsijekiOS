@@ -12,7 +12,7 @@ import SwiftyJSON
 private extension Date {
     func dayOfWeek(time: Double) -> String {
         
-        let todayDate = NSDate(timeIntervalSince1970: time)
+        let todayDate = Date(timeIntervalSince1970: time)
         
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE"
@@ -21,7 +21,7 @@ private extension Date {
     }
 }
 
-struct WeatherDetail {
+struct WeatherDetail: Equatable {
     let shortDesc: String
     let longDesc: String
     let weatherIcon: UIImage?
@@ -35,11 +35,17 @@ extension WeatherDetail {
         weatherID = 0
         weatherIcon = nil
     }
+    
+    static func == (lhs: WeatherDetail, rhs: WeatherDetail) -> Bool {
+        return lhs.longDesc == rhs.longDesc &&
+            lhs.shortDesc == rhs.shortDesc &&
+            lhs.weatherIcon == rhs.weatherIcon &&
+            lhs.weatherID == rhs.weatherID
+    }
 }
 
 struct Weather {
     
-    var urlString = ""
     let parsingURL: URL
     var weatherDesc: WeatherDetail?
     let currentTemp: Double
@@ -51,26 +57,19 @@ struct Weather {
     let windSpeed: Double
     let windDegree: Double
     
-    init?(json: [String: Any], urlString: String) {
+    func refreshData(onCompletion: @escaping (Weather?) -> Void) {
+        let fetcher = Fetcher()
+        fetcher.fetch(fromUrl: parsingURL) { jsonDataWeather in
+            onCompletion(Weather(json: jsonDataWeather, url: self.parsingURL))
+        }
+    }
+}
+
+extension Weather {
+    
+    init?(json: [String: Any], url: URL) {
         
         let json = JSON(json)
-        
-        //        guard let weathersArray = json["weather"] as? [Any],
-        //            let weathers = weathersArray[0] as? [String: String],
-        //            let shortDesc = weathers["main"],
-        //            let longDesc = weathers["description"],
-        //            let weatherIcon = weathers["icon"],
-        //            let weatherID = weathers["id"],
-        //            let conditions = json["main"] as? [String: Double],
-        //            let temp = conditions["temp"],
-        //            let pressure = conditions["pressure"],
-        //            let humidity = conditions["humidity"],
-        //            let tempMin = conditions["temp_min"],
-        //            let tempMax = conditions["temp_max"],
-        //            let visibility = json["visibility"] as? Int,
-        //            let windSpecs = json["wind"] as? [String: Double],
-        //            let windSpeed = windSpecs["speed"],
-        //            let windDegree = windSpecs["deg"]
         
         guard let shortDesc = json["weather"][0]["main"].string,
             let longDesc = json["weather"][0]["description"].string,
@@ -97,20 +96,13 @@ struct Weather {
         self.windSpeed = windSpeed
         self.windDegree = windDegree
         
-        self.urlString = urlString
-        self.parsingURL = URL(string: urlString)!
+        self.parsingURL = url
         
         loadImage(identificator: weatherIcon) { image in
             self.weatherDesc = WeatherDetail(shortDesc: shortDesc, longDesc: longDesc, weatherIcon: image, weatherID: weatherID)
         }
     }
     
-    func refreshData(onCompletion: @escaping (Weather?) -> Void) {
-        let fetcher = Fetcher()
-        fetcher.fetch(fromUrl: parsingURL) { jsonDataWeather in
-            onCompletion(Weather(json: jsonDataWeather, urlString: self.urlString))
-        }
-    }
 }
 
 struct Forecast {
@@ -124,14 +116,12 @@ struct Forecast {
 
 struct Forecasts {
     
-    var urlString = ""
-    let parsingURL: URL
+    let parsingURL: URL?
     var forecasts = [Forecast]()
     
-    init?(json: [String: Any], urlString: String) {
+    init?(json: [String: Any], url: URL) {
         
-        self.urlString = urlString
-        self.parsingURL = URL(string: urlString)!
+        self.parsingURL = url
         
         guard let forecastsArray = json["list"] as? [[String: Any]]
         else {
@@ -160,13 +150,16 @@ struct Forecasts {
         
         let fetcher = Fetcher()
         var jsonDataForecast = [String: Any]()
-        let forecastURL = URL(string: urlString)!
-        fetcher.fetch(fromUrl: forecastURL) { json in
-            jsonDataForecast = json
-            onCompletion(Forecasts(json: jsonDataForecast, urlString: self.urlString))
+        if let parsingURL = self.parsingURL {
+            fetcher.fetch(fromUrl: parsingURL) { json in
+                jsonDataForecast = json
+                onCompletion(Forecasts(json: jsonDataForecast, url: parsingURL))
+            }
+        } else {
+            print("URL is nil!")
+            return
         }
     }
-    
 }
 
 private func loadImage(identificator: String, onCompletion: (UIImage?) -> Void) {

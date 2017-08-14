@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Fetcher {
+class Fetcher: FetchesJSON {
     
     var currentTask: URLSessionTask?
     
@@ -19,8 +19,8 @@ class Fetcher {
                 guard error == nil, let data = data else {
                     return
                 }
-                let parsedData = try? JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-                completion(parsedData!)
+                let parsedData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                completion(parsedData!!)
             }
         }
         currentTask?.resume()

@@ -7,5 +7,6 @@ target 'WeatherOsijek' do
 
   # Pods for WeatherOsijek
 pod ‘SwiftyJSON’
+pod ‘SwiftLint’
 
 end

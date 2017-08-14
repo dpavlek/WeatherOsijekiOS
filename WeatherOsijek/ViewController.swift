@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController {
     
     @IBOutlet weak var weatherImage: UIImageView!
     @IBOutlet weak var weatherDesc: UILabel!
@@ -16,57 +16,46 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var weatherWind: UILabel!
     @IBOutlet weak var forecastTable: UITableView!
     
-    private var forecastObject: Forecasts?
-    private var weatherObject: Weather?
-    private var fetcher = Fetcher()
+    let viewModel = ViewModel(fetcher: Fetcher())
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        forecastTable.delegate = self
         forecastTable.dataSource = self
+        forecastTable.delegate = self
         
-        let weatherURLString = "http://api.openweathermap.org/data/2.5/weather?q=Osijek,hr&units=metric&appid=913cd011c39c592225373dd9d19f62b3"
-        let forecastURLString = "http://api.openweathermap.org/data/2.5/forecast/daily?id=3193935&units=metric&cnt=7&appid=913cd011c39c592225373dd9d19f62b3"
-        
-        let weatherURL = URL(string: weatherURLString)!
-        let forecastURL = URL(string: forecastURLString)!
-        
-        fetcher.fetch(fromUrl: weatherURL) { [weak self] json in
-            self?.weatherObject = Weather(json: json, urlString: weatherURLString)
+        viewModel.fetchWeather { [weak self] _ in
             self?.showWeatherData()
-            
         }
         
-        fetcher.fetch(fromUrl: forecastURL) { [weak self] json in
-            self?.forecastObject = Forecasts(json: json, urlString: forecastURLString)
+        viewModel.fetchForecast { [weak self] _ in
             self?.forecastTable.reloadData()
         }
+        
     }
     
     private func showWeatherData() {
-        weatherDesc.text = weatherObject?.weatherDesc?.shortDesc
-        weatherTemp.text = "Temperature: \(String(weatherObject?.currentTemp ?? -273.15)) °C"
-        weatherWind.text = "Wind: \(String(weatherObject?.windSpeed ?? -273.15)) km/h"
-        weatherImage.image = weatherObject?.weatherDesc?.weatherIcon
-        
+        let weatherInfo = viewModel.showWeatherData()
+        weatherDesc.text = weatherInfo["WeatherDescription"] as? String
+        weatherTemp.text = weatherInfo["Temperature"] as? String
+        weatherWind.text = weatherInfo["WindSpeed"] as? String
+        weatherImage.image = weatherInfo["WeatherIcon"] as? UIImage
     }
     
     @IBAction func reloadWeather(_ sender: UIBarButtonItem) {
-        
-        forecastObject?.refreshData { forecast in
-            self.forecastObject = forecast
-            self.forecastTable.reloadData()
+        viewModel.refreshWeather { [weak self] _ in
+            self?.showWeatherData()
         }
-        
-        weatherObject?.refreshData { weather in
-            self.weatherObject = weather
-            self.showWeatherData()
+        viewModel.refreshForecasts { [weak self] _ in
+            self?.forecastTable.reloadData()
         }
     }
+}
+
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return forecastObject?.getForecastCount() ?? 7
+        return viewModel.getForecastCount()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -75,10 +64,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             fatalError("Cell is not DayTableViewCell")
         }
         
-        cell.weatherCellLabel.text = forecastObject?.forecasts[indexPath.row].date
-        // TO-DO Temperature. Why optional?
-        cell.weatherCellTemp.text = (forecastObject?.forecasts[indexPath.row].temp ?? "nil") + " °C"
-        cell.weatherCellImage.image = forecastObject?.forecasts[indexPath.row].icon
+        let currentForecast = viewModel.getForecast(forIndex: indexPath.row)
+        
+        cell.weatherCellLabel.text = currentForecast?.weatherDescription
+        cell.weatherCellTemp.text = (currentForecast?.temp ?? "nil") + " °C"
+        cell.weatherCellImage.image = currentForecast?.icon
         
         return cell
     }
@@ -86,5 +76,4 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
 }
